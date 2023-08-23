@@ -24,11 +24,11 @@ import workExperience from "./routes/workExperience.js";
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    credentials: true,
-  },
-});
+// const io = new Server(httpServer, {
+//   cors: {
+//     credentials: true,
+//   },
+// });
 const port = process.env.PORT || 3000;
 
 config();
