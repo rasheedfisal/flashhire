@@ -3,7 +3,7 @@ import express, { json } from "express";
 import cors from "cors";
 import { config } from "dotenv";
 import { createServer } from "http";
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
 
 import applicant from "./routes/applicant.js";
 import auth from "./routes/auth.js";
@@ -98,11 +98,11 @@ app.use("/api/user", user);
 app.use("/api/work-experience", workExperience);
 
 // WebSocket connection for real-time messages
-io.on("connection", (socket) => {
-  socket.on("chat", (message) => {
-    io.emit("chat", message);
-  });
-});
+// io.on("connection", (socket) => {
+//   socket.on("chat", (message) => {
+//     io.emit("chat", message);
+//   });
+// });
 
 app.all("/*", (req, res) => {
   res.status(404).json({
