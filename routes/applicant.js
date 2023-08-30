@@ -613,20 +613,6 @@ router.patch(
         is_viewed: true,
       },
     });
-
-    // The response if the candidate cannot be updated
-    // if (!false) {
-    //     res.status(500).json({
-    //         endpoint: req.originalUrl,
-    //         status: "500 - Intern Server Error",
-    //         message:
-    //             "Applicant " +
-    //             candidate_profile_id +
-    //             " cannot be updated due to internal error.",
-    //     });
-    //     return;
-    // }
-
     res.status(200).json({
       endpoint: req.originalUrl,
       status: "200 - Ok",
@@ -640,7 +626,101 @@ router.patch(
   }
 );
 
-// 9- DELETE /api/applicant/wishlist/:candidate_profile_id/:job_id
+// 9- PUT /api/applicant/wishlist/:candidate_profile_id/:job_id
+router.put("/wishlist", async (req, res) => {
+  const { candidate_profile_id, job_id, is_only_wish } = req.body;
+
+  console.log("--> getting values");
+
+  // Check if the job id is exists
+  console.log("--> check if job exist");
+  const jobExists = await prisma.job.findUnique({
+    where: {
+      id: job_id,
+    },
+  });
+
+  // The response if the job id is not exists
+  if (!jobExists) {
+    res.status(404).json({
+      endpoint: req.originalUrl,
+      status: "404 - Not Found",
+      message: "Job id not found.",
+    });
+    return;
+  }
+
+  // Check if the candidate profile id is exists
+  console.log("--> check if candidate exist");
+  const candidateExists = await prisma.candidate_Profile.findUnique({
+    where: {
+      id: candidate_profile_id,
+    },
+  });
+
+  // The response if the candidate profile id is not exists
+  if (!candidateExists) {
+    res.status(404).json({
+      endpoint: req.originalUrl,
+      status: "404 - Not Found",
+      message: "Candidate profile id not found.",
+    });
+    return;
+  }
+
+  // Check if the candidate profile id is included in job id
+  console.log("--> check if application exist");
+  const applicantExists = await prisma.applicant.findFirst({
+    where: {
+      candidate_profile_id: candidate_profile_id,
+      job_id: job_id,
+    },
+  });
+
+  // The response if the candidate profile id is not included in job id
+  if (!applicantExists) {
+    res.status(404).json({
+      endpoint: req.originalUrl,
+      status: "404 - Not Found",
+      message:
+        "Candidate profile id " +
+        candidate_profile_id +
+        " is not included in job " +
+        job_id,
+    });
+    return;
+  }
+
+  // Add a job in wishlist
+  console.log("--> update wishlist");
+  await prisma.applicant.update({
+    where: {
+      id: applicantExists.id,
+    },
+    data: {
+      is_only_wish: is_only_wish,
+    },
+  });
+
+  // The response if the applicant cannot be deleted
+  // if (!false) {
+  //     res.status(500).json({
+  //         endpoint: req.originalUrl,
+  //         status: "500 - Intern Server Error",
+  //         message:
+  //             "Applicant " +
+  //             candidate_profile_id +
+  //             " cannot be deleted due to internal error.",
+  //     });
+  //     return;
+  // }
+
+  res.status(200).json({
+    endpoint: req.originalUrl,
+    status: "200 - Ok",
+    message: "Job Added to Wishlist",
+  });
+});
 router.delete("/wishlist/:candidate_profile_id/:job_id", async (req, res) => {
   const candidate_profile_id = req.params.candidate_profile_id;
   const job_id = req.params.job_id;
