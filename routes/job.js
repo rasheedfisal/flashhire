@@ -605,6 +605,7 @@ router.patch("/:company_id/:job_id", async (req, res) => {
 
 // 8- PATCH /api/job/recruitment-status/:company_id/:job_id
 router.patch("/recruitment-status/:company_id/:job_id", async (req, res) => {
+  console.log("--> 11111111111");
   const company_id = req.params.company_id;
   const job_id = req.params.job_id;
 
@@ -643,6 +644,7 @@ router.patch("/recruitment-status/:company_id/:job_id", async (req, res) => {
       company_id: company_id,
     },
   });
+  console.log("--> 222222222");
 
   // The response if the job is not exists
   if (!jobExists) {

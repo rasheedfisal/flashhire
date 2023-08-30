@@ -27,7 +27,7 @@ router.get("/:job_id", async (req, res) => {
     },
   });
 
-  // The response if the job id is not exists
+  // The response if the job id is not exists//
   if (!jobExists) {
     res.status(404).json({
       endpoint: req.originalUrl,
