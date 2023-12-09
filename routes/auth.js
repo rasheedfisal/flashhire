@@ -358,16 +358,16 @@ router.post("/admin", async (req, res) => {
   }
 
   // Check if the password meets the requirements
-  if (!regexpassword.test(password)) {
-    res.status(400).json({
-      endpoint: req.originalUrl,
-      status: "400 - Bad Request",
-      message:
-        "Password is not valid. Password must contains at least one lowercase letter, one uppercase letter and one number. Password must also has a minimum length of 8 characters.",
-      data: [],
-    });
-    return;
-  }
+  // if (!regexpassword.test(password)) {
+  //   res.status(400).json({
+  //     endpoint: req.originalUrl,
+  //     status: "400 - Bad Request",
+  //     message:
+  //       "Password is not valid. Password must contains at least one lowercase letter, one uppercase letter and one number. Password must also has a minimum length of 8 characters.",
+  //     data: [],
+  //   });
+  //   return;
+  // }
 
   // Check if the confirm password matches to password
   if (confirmpassword !== password) {
@@ -1035,15 +1035,15 @@ router.post("/forgot-password/new-password", async (req, res) => {
   }
 
   // Check if the password meets the requirements
-  if (!regexpassword.test(newpassword)) {
-    res.status(400).json({
-      endpoint: req.originalUrl,
-      status: "400 - Bad Request",
-      message:
-        "Password is not valid. Password must contains at least one lowercase letter, one uppercase letter and one number. Password must also has a minimum length of 8 characters.",
-    });
-    return;
-  }
+  // if (!regexpassword.test(newpassword)) {
+  //   res.status(400).json({
+  //     endpoint: req.originalUrl,
+  //     status: "400 - Bad Request",
+  //     message:
+  //       "Password is not valid. Password must contains at least one lowercase letter, one uppercase letter and one number. Password must also has a minimum length of 8 characters.",
+  //   });
+  //   return;
+  // }
 
   // Check if the confirm password matches to password
   if (confirmnewpassword !== newpassword) {
